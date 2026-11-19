@@ -1,38 +1,32 @@
 # Pasar Brainrot: Rebut & Rebirth
 
-A bright, multiplayer market game built with Rojo and modular Luau scripts. Players buy original brainrot characters
-from a shared conveyor, carry them home, earn cash from their displays, swipe stock from rivals, lock and defend their
-base, then rebirth to reset their collection for a permanent income bonus.
+**Pasar Brainrot** is a colorful multiplayer market tycoon built with Rojo and modular Luau. The plaza is framed by a raised conveyor, timber-and-fabric kiosks, a large market entrance, hanging pennants, lanterns, planters, and six distinct player/NPC bases. Original brainrot characters use assembled Parts, readable faces, and compact labels—no external models or textures are required.
 
-## Play loop
+## How to play
 
-- Walk to the central conveyor and press **E** (or the on-screen prompt) to buy an affordable brainrot.
-- Carry it to the **DROP ZONE** in your base. Carrying slows your character by 30%; delivered characters earn cash each second.
-- Visit another player's or an NPC rival's base and hold **E** on a displayed character to swipe it, then bring it home.
-- Use the **Lock Base** button to protect your stock for 60 seconds. Use the gold stand at your base to upgrade defense.
-- Rebirth from the HUD when you have the required cash and at least one delivered character. Rebirth clears cash and stock,
-  grants a permanent +25% income multiplier, and improves higher-rarity conveyor odds at later tiers.
+1. Find an affordable brainrot on the central conveyor and press **E** (or use the on-screen prompt) to buy it.
+2. Carry it back to the **DROP ZONE** in your base. Carrying reduces your movement speed by 30%.
+3. A delivered brainrot earns cash every second. Displayed characters can be stolen from unlocked rival bases by holding **E**; take the stolen character back to your own DROP ZONE.
+4. Use **Lock Base** in the HUD to secure your base for 60 seconds. The gold stand in your base upgrades its defense.
+5. Rebirth from the HUD after meeting the cash requirement and owning at least one delivered brainrot. Rebirth resets cash and stock, grants a permanent +25% income multiplier, and boosts higher-rarity odds at later tiers.
 
-The game includes 10 original 3D characters across Common, Rare, Epic, Legendary, and Mythic rarities. Gold, Diamond, and
-Rainbow mutations increase income. Four player bases and two NPC rivals surround the market plaza; rival raids can move
-one of your displayed characters into an NPC base.
+The game has four player bases and two NPC rivals, ten original characters across Common, Rare, Epic, Legendary, and Mythic rarities, plus Gold, Diamond, and Rainbow mutations that increase income. The conveyor purchase prompts, base DROP ZONE, lock timer, rival theft, and rebirth loop are server-controlled.
 
-## Project layout
+## Project files
 
-- `src/server/BrainrotCatalog.luau` defines the character catalog, rarities, mutation multipliers, and 3D models.
-- `src/server/WorldBuilder.luau` constructs the plaza, conveyor, bases, rival keepers, and display stations.
-- `src/server/GameService.luau` owns the single authoritative runtime state and server-validated game loop.
-- `src/server/Bootstrap.server.luau` is the runnable ServerScriptService entry point and starts the game service.
-- `src/client/Game.client.luau` builds the responsive HUD and connects it to server remotes.
-- `default.project.json` maps those modules into Roblox services and enables automatic character spawning.
+- `src/server/WorldBuilder.luau` builds the 3D plaza, kiosks, conveyor, entry arch, decorations, and bases.
+- `src/server/BrainrotCatalog.luau` defines the characters, rarity/mutation data, and Part-based models.
+- `src/server/GameService.luau` owns runtime state and the validated game loop.
+- `src/server/Bootstrap.server.luau` starts the server game service.
+- `src/client/Game.client.luau` creates the HUD and connects to server remotes.
+- `default.project.json` maps the Rojo project into Roblox services.
 
-## Build
+## Build and run
 
-With Rojo 7.7 installed, rebuild the Roblox place from the project root:
+With Rojo 7.7 installed, run from the repository root:
 
 ```sh
 rojo build default.project.json --output game.rbxl
 ```
 
-`PLAY.json` points to the published public experience. Replace the starter captures in `screenshots/` with screenshots of
-the running game before submitting, and use one of those same captures as the first experience thumbnail in Creator Dashboard.
+Open `game.rbxl` in Roblox Studio and press **Play** to test. For a submission, replace the starter captures in `screenshots/` with screenshots from the running game; use one as the first experience thumbnail. `PLAY.json` identifies the published experience.

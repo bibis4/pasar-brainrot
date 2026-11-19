@@ -45,16 +45,19 @@ local function makePart(parent, name, size, color, shape, offset, material)
 	return part
 end
 
-local function addFace(model)
+local function addFace(model, body)
+	local center = body.Position
+	local frontZ = center.Z - math.max(body.Size.Z * 0.43, 0.75)
+	local eyeY = center.Y + 0.15
 	for _, side in ipairs({ -1, 1 }) do
-		makePart(model, side < 0 and "EyeWhiteLeft" or "EyeWhiteRight", Vector3.new(0.53, 0.62, 0.28), Color3.fromRGB(255, 255, 246), Enum.PartType.Ball, Vector3.new(side * 0.46, 1.65, -0.96))
-		makePart(model, side < 0 and "EyePupilLeft" or "EyePupilRight", Vector3.new(0.22, 0.29, 0.14), Color3.fromRGB(44, 52, 58), Enum.PartType.Ball, Vector3.new(side * 0.46, 1.63, -1.13))
-		makePart(model, side < 0 and "EyeShineLeft" or "EyeShineRight", Vector3.new(0.09, 0.11, 0.07), Color3.fromRGB(255, 255, 255), Enum.PartType.Ball, Vector3.new(side * 0.46 - 0.035, 1.7, -1.21))
+		makePart(model, side < 0 and "EyeWhiteLeft" or "EyeWhiteRight", Vector3.new(0.53, 0.62, 0.28), Color3.fromRGB(255, 255, 246), Enum.PartType.Ball, Vector3.new(center.X + side * 0.46, eyeY, frontZ))
+		makePart(model, side < 0 and "EyePupilLeft" or "EyePupilRight", Vector3.new(0.22, 0.29, 0.14), Color3.fromRGB(44, 52, 58), Enum.PartType.Ball, Vector3.new(center.X + side * 0.46, eyeY - 0.02, frontZ - 0.17))
+		makePart(model, side < 0 and "EyeShineLeft" or "EyeShineRight", Vector3.new(0.09, 0.11, 0.07), Color3.fromRGB(255, 255, 255), Enum.PartType.Ball, Vector3.new(center.X + side * 0.46 - 0.035, eyeY + 0.07, frontZ - 0.27))
 	end
-	makePart(model, "Smile", Vector3.new(0.35, 0.12, 0.1), Color3.fromRGB(146, 71, 77), Enum.PartType.Ball, Vector3.new(0, 1.18, -1.04))
+	makePart(model, "Smile", Vector3.new(0.35, 0.12, 0.1), Color3.fromRGB(146, 71, 77), Enum.PartType.Ball, Vector3.new(center.X, center.Y - 0.32, frontZ - 0.07))
 	if model.Name:find("Puddleplop") then
 		for _, side in ipairs({ -1, 1 }) do
-			makePart(model, side < 0 and "CheekLeft" or "CheekRight", Vector3.new(0.32, 0.2, 0.1), Color3.fromRGB(255, 139, 167), Enum.PartType.Ball, Vector3.new(side * 0.82, 1.25, -0.85))
+			makePart(model, side < 0 and "CheekLeft" or "CheekRight", Vector3.new(0.32, 0.2, 0.1), Color3.fromRGB(255, 139, 167), Enum.PartType.Ball, Vector3.new(center.X + side * 0.82, center.Y - 0.08, frontZ + 0.08))
 		end
 	end
 end
@@ -167,7 +170,7 @@ function Catalog.CreateModel(item, mutation, parent)
 		foot.CFrame *= CFrame.Angles(0, 0, math.rad(90))
 	end
 	model.PrimaryPart = body
-	addFace(model)
+	addFace(model, body)
 	local rarity = Catalog.Rarities[item.Rarity]
 	local tag = Instance.new("BillboardGui")
 	tag.Name = "NameTag"

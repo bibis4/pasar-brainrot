@@ -1,6 +1,6 @@
 # Pasar Brainrot: Rebut & Rebirth
 
-**Pasar Brainrot** is a colorful multiplayer market tycoon built with Rojo and modular Luau. The plaza is framed by a raised conveyor, timber-and-fabric kiosks, a large market entrance, hanging pennants, lanterns, planters, and six distinct player/NPC bases. Original brainrot characters use assembled Parts, readable faces, and compact labels—no external models or textures are required.
+**Pasar Brainrot** is a colorful multiplayer market tycoon built with Rojo and modular Luau. The plaza is framed by a raised conveyor, timber-and-fabric kiosks, a large market entrance, hanging pennants, lanterns, planters, and six distinct player/NPC bases. Original brainrot characters use assembled Parts, readable faces, and compact labels. No external models or textures are required.
 
 ## How to play
 

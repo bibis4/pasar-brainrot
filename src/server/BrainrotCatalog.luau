@@ -1,5 +1,7 @@
 local Catalog = {}
 
+local MODEL_SCALE = 1.22
+
 Catalog.Rarities = {
 	Common = { Color = Color3.fromRGB(194, 205, 184), Weight = 48, Multiplier = 1 },
 	Rare = { Color = Color3.fromRGB(75, 174, 235), Weight = 27, Multiplier = 1.7 },
@@ -30,7 +32,7 @@ Catalog.Items = {
 local function makePart(parent, name, size, color, shape, offset, material)
 	local part = Instance.new("Part")
 	part.Name = name
-	part.Size = size
+	part.Size = size * MODEL_SCALE
 	part.Color = color
 	part.Shape = shape or Enum.PartType.Block
 	part.Material = material or Enum.Material.SmoothPlastic
@@ -38,28 +40,23 @@ local function makePart(parent, name, size, color, shape, offset, material)
 	part.CanCollide = false
 	part.TopSurface = Enum.SurfaceType.Smooth
 	part.BottomSurface = Enum.SurfaceType.Smooth
-	part.CFrame = CFrame.new(offset)
+	part.CFrame = CFrame.new(offset * MODEL_SCALE)
 	part.Parent = parent
 	return part
 end
 
-local function addFace(model, at)
-	local face = Instance.new("BillboardGui")
-	face.Name = "FriendlyFace"
-	face.Size = UDim2.fromOffset(70, 36)
-	face.StudsOffset = at
-	face.AlwaysOnTop = true
-	face.MaxDistance = 80
-	face.Parent = model.PrimaryPart
-	local label = Instance.new("TextLabel")
-	label.Size = UDim2.fromScale(1, 1)
-	label.BackgroundTransparency = 1
-	label.Font = Enum.Font.GothamBlack
-	label.Text = "•ᴗ•"
-	label.TextColor3 = Color3.fromRGB(255, 255, 255)
-	label.TextStrokeTransparency = 0.25
-	label.TextScaled = true
-	label.Parent = face
+local function addFace(model)
+	for _, side in ipairs({ -1, 1 }) do
+		makePart(model, side < 0 and "EyeWhiteLeft" or "EyeWhiteRight", Vector3.new(0.53, 0.62, 0.28), Color3.fromRGB(255, 255, 246), Enum.PartType.Ball, Vector3.new(side * 0.46, 1.65, -0.96))
+		makePart(model, side < 0 and "EyePupilLeft" or "EyePupilRight", Vector3.new(0.22, 0.29, 0.14), Color3.fromRGB(44, 52, 58), Enum.PartType.Ball, Vector3.new(side * 0.46, 1.63, -1.13))
+		makePart(model, side < 0 and "EyeShineLeft" or "EyeShineRight", Vector3.new(0.09, 0.11, 0.07), Color3.fromRGB(255, 255, 255), Enum.PartType.Ball, Vector3.new(side * 0.46 - 0.035, 1.7, -1.21))
+	end
+	makePart(model, "Smile", Vector3.new(0.35, 0.12, 0.1), Color3.fromRGB(146, 71, 77), Enum.PartType.Ball, Vector3.new(0, 1.18, -1.04))
+	if model.Name:find("Puddleplop") then
+		for _, side in ipairs({ -1, 1 }) do
+			makePart(model, side < 0 and "CheekLeft" or "CheekRight", Vector3.new(0.32, 0.2, 0.1), Color3.fromRGB(255, 139, 167), Enum.PartType.Ball, Vector3.new(side * 0.82, 1.25, -0.85))
+		end
+	end
 end
 
 function Catalog.GetByName(name)
@@ -170,14 +167,14 @@ function Catalog.CreateModel(item, mutation, parent)
 		foot.CFrame *= CFrame.Angles(0, 0, math.rad(90))
 	end
 	model.PrimaryPart = body
-	addFace(model, Vector3.new(0, 0.2, -1.08))
+	addFace(model)
 	local rarity = Catalog.Rarities[item.Rarity]
 	local tag = Instance.new("BillboardGui")
 	tag.Name = "NameTag"
-	tag.Size = UDim2.fromOffset(175, 50)
-	tag.StudsOffset = Vector3.new(0, 3.45, 0)
+	tag.Size = UDim2.fromOffset(138, 38)
+	tag.StudsOffset = Vector3.new(0, 2.7, 0)
 	tag.AlwaysOnTop = true
-	tag.MaxDistance = 90
+	tag.MaxDistance = 68
 	tag.Parent = body
 	local text = Instance.new("TextLabel")
 	text.Size = UDim2.fromScale(1, 1)
@@ -189,10 +186,14 @@ function Catalog.CreateModel(item, mutation, parent)
 	text.TextStrokeTransparency = 0.15
 	text.TextScaled = true
 	text.Parent = tag
+	local textConstraint = Instance.new("UITextSizeConstraint")
+	textConstraint.MinTextSize = 10
+	textConstraint.MaxTextSize = 22
+	textConstraint.Parent = text
 	if mutation == "Rainbow" then
 		local colorIndex = 0
 		for _, descendant in ipairs(model:GetDescendants()) do
-			if descendant:IsA("BasePart") then
+			if descendant:IsA("BasePart") and not descendant.Name:find("Eye") and descendant.Name ~= "Smile" and not descendant.Name:find("Cheek") then
 				colorIndex += 1
 				descendant.Color = Color3.fromHSV((colorIndex * 0.17) % 1, 0.72, 1)
 			end

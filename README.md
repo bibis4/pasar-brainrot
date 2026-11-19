@@ -22,7 +22,7 @@ one of your displayed characters into an NPC base.
 - `src/server/BrainrotCatalog.luau` defines the character catalog, rarities, mutation multipliers, and 3D models.
 - `src/server/WorldBuilder.luau` constructs the plaza, conveyor, bases, rival keepers, and display stations.
 - `src/server/GameService.luau` owns the single authoritative runtime state and server-validated game loop.
-- `src/server/init.server.luau` starts the game service.
+- `src/server/Bootstrap.server.luau` is the runnable ServerScriptService entry point and starts the game service.
 - `src/client/Game.client.luau` builds the responsive HUD and connects it to server remotes.
 - `default.project.json` maps those modules into Roblox services and enables automatic character spawning.
 

@@ -1,21 +1,38 @@
-# roblox-brainrot-01 starter
+# Pasar Brainrot: Rebut & Rebirth
 
-A working entry for make.fun's "Make the best AI Roblox brainrot game" bounty (roblox-brainrot-01), laid out as your
-repository: a Rojo project whose game is a grey square that moves with the arrow keys. It is a starting point, not a
-winner, and not yet the 3D game the bounty asks for: its square is drawn on the screen, not in Roblox's 3D world.
+A bright, multiplayer market game built with Rojo and modular Luau scripts. Players buy original brainrot characters
+from a shared conveyor, carry them home, earn cash from their displays, swipe stock from rivals, lock and defend their
+base, then rebirth to reset their collection for a permanent income bonus.
 
-- `main.ts` (Node 22, standard library only) hands the game in: it copies `game.rbxl`, `src/`, `screenshots/` and
-  `PLAY.json` to `/output`, leaving out every name that starts with a dot (such as `.gitkeep` or `.DS_Store`, which
-  fail an entry), and writes `/output/dossier.json` with `vendor/makefun-roblox.ts`, the kit's copy, unchanged.
-- `game.rbxl` is the place Rojo builds from `src/` and `default.project.json`; `screenshots/` holds three captures of
-  it; `PLAY.json` names no place yet, so the gate refuses the starter as it stands until it names your published one.
-- One of your screenshots must also be your game's first thumbnail on Roblox: the same picture, uploaded on the
-  Creator Dashboard with your game's icon.
-- `TOUR.json` is an example of the optional tour: for each screenshot, the keys that bring the game to that screen.
+## Play loop
 
-Run it as the grader does, writing `out/` in place of `/output`:
+- Walk to the central conveyor and press **E** (or the on-screen prompt) to buy an affordable brainrot.
+- Carry it to the **DROP ZONE** in your base. Carrying slows your character by 30%; delivered characters earn cash each second.
+- Visit another player's or an NPC rival's base and hold **E** on a displayed character to swipe it, then bring it home.
+- Use the **Lock Base** button to protect your stock for 60 seconds. Use the gold stand at your base to upgrade defense.
+- Rebirth from the HUD when you have the required cash and at least one delivered character. Rebirth clears cash and stock,
+  grants a permanent +25% income multiplier, and improves higher-rarity conveyor odds at later tiers.
 
-    mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
+The game includes 10 original 3D characters across Common, Rare, Epic, Legendary, and Mythic rarities. Gold, Diamond, and
+Rainbow mutations increase income. Four player bases and two NPC rivals surround the market plaza; rival raids can move
+one of your displayed characters into an NPC base.
 
-The rules are on the bounty's page (/bounty/roblox-brainrot-01) and in the kit's RULES.txt,
-which gives every command in order (Before you submit, then Enter).
+## Project layout
+
+- `src/server/BrainrotCatalog.luau` defines the character catalog, rarities, mutation multipliers, and 3D models.
+- `src/server/WorldBuilder.luau` constructs the plaza, conveyor, bases, rival keepers, and display stations.
+- `src/server/GameService.luau` owns the single authoritative runtime state and server-validated game loop.
+- `src/server/init.server.luau` starts the game service.
+- `src/client/Game.client.luau` builds the responsive HUD and connects it to server remotes.
+- `default.project.json` maps those modules into Roblox services and enables automatic character spawning.
+
+## Build
+
+With Rojo 7.7 installed, rebuild the Roblox place from the project root:
+
+```sh
+rojo build default.project.json --output game.rbxl
+```
+
+`PLAY.json` points to the published public experience. Replace the starter captures in `screenshots/` with screenshots of
+the running game before submitting, and use one of those same captures as the first experience thumbnail in Creator Dashboard.

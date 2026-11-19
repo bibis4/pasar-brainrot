@@ -1,1 +1,3 @@
-print("Hello world, from server!")
+local GameService = require(script.Parent.GameService)
+
+GameService.Start()

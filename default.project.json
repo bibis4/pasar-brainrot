@@ -1,10 +1,10 @@
 {
-  "name": "house-dodge",
+  "name": "Pasar Brainrot Rebut dan Rebirth",
   "tree": {
     "$className": "DataModel",
     "Players": {
       "$properties": {
-        "CharacterAutoLoads": false
+        "CharacterAutoLoads": true
       }
     },
     "ServerScriptService": {
@@ -28,9 +28,9 @@
         "$properties": {
           "Anchored": true,
           "Color": [
-            0.38823,
-            0.37254,
-            0.38823
+            0.949,
+            0.89,
+            0.694
           ],
           "Locked": true,
           "Position": [
@@ -49,11 +49,19 @@
     "Lighting": {
       "$properties": {
         "Ambient": [
-          0,
-          0,
-          0
+          0.62,
+          0.58,
+          0.47
         ],
-        "Brightness": 2,
+        "Brightness": 3,
+        "ClockTime": 9.5,
+        "EnvironmentDiffuseScale": 0.55,
+        "EnvironmentSpecularScale": 0.4,
+        "OutdoorAmbient": [
+          0.72,
+          0.7,
+          0.62
+        ],
         "GlobalShadows": true,
         "Outlines": false,
         "Technology": "Voxel"
